@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jks">
+        <cache eviction="FIFO" flushInterval="200" readOnly="true">
+        </cache>
+        <resultMap id="st" type="student">
+                <id property="stu_id" column="stu_id"/>
+                <result property="stu_nam" column="stu_nam"/>
+                <result property="stu_sex" column="stu_sex"/>
+        </resultMap>
+        <sql id="sa">
+        stu_id,stu_nam,stu_sex
+        </sql>
+        <insert id="inertial1" parameterType="student" useGeneratedKeys="true">
+                insert into student (<include refid="sa"/>)
+                values (#{stu_id},#{stu_nam},#{stu_sex})
+        </insert>
+        <select id="select1" resultMap="st" parameterType="int" useCache="true">
+        SELECT * FROM student;
+        </select>
+        <delete id="deletes" parameterType="student">
+        delete from student where stu_id=#{stu_id};
+        </delete>
+        <update id="update" parameterType="student">
+        update student set stu_nam=#{stu_nam},stu_sex=#{stu_sex} where stu_id=#{stu_id}
+        </update>
+        <select id="select2" resultMap="st" useCache="true">
+                select stu_sex from student where stu_sex =#{stu_sex};
+        </select>
+        <select id="select3" resultMap="st" useCache="true">
+                select stu_id from student where stu_id =#{stu_id};
+        </select>
+</mapper>
